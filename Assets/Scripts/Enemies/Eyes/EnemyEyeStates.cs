@@ -148,7 +148,7 @@ public class DashingState : EyeState
     {
         if (enemy is EyeDashController eyeDasher && eyeDasher.isElite)
         {
-            dashCount = 3;
+            dashCount = 2;
         }
         chargeTimer = 0f;
         dashTimer = 0f;
