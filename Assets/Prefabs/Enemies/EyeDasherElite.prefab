@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 561127509556398602, guid: fafe651ed2d57f5408cab6fef24baba0, type: 3}
       propertyPath: m_Name
-      value: EyeDasherElite Variant
+      value: EyeDasherElite
       objectReference: {fileID: 0}
     - target: {fileID: 2643655259306138483, guid: fafe651ed2d57f5408cab6fef24baba0, type: 3}
       propertyPath: isElite
