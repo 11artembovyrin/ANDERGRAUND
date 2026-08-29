@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public float gravity = 60f;
     public float maxFallSpeed = 50f;
     public float skinWidth = 0.015f;
-    
+
 
     [Header("Sword")]
     public float swordHitForce = 35f;
@@ -44,6 +44,13 @@ public class PlayerController : MonoBehaviour
     public float hookAcceleration = 20f;
     public float maxHookSpeed = 100f;
 
+    [Header("Dash")]
+    public float dashForce = 50f;
+    public float dashDeacceletareForce = 20f;
+    public float dashReloadTime = 2f;
+    private float dashReloadTimer = 0;
+    private bool dashDeacceleratingEnabled = false;
+
     [Header("Collision")]
     public Vector2 boxSize;
 
@@ -63,6 +70,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool canWallJump = false;
     [HideInInspector] public float savedVelocityX;
     [HideInInspector] public Vector2 interpolatedPosition;
+    [HideInInspector] public float playerDirection = 1;
 
     private BoxCollider2D col;
     private float halfWidth, halfHeight;
@@ -76,6 +84,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public float horizontalInput;
     [HideInInspector] public float verticalInput;
     [HideInInspector] public bool spañePressed;
+    [HideInInspector] public bool shiftPressed;
+    
 
     // OTHER
     [HideInInspector] public float acceleratingMultiplier = 1f;
@@ -152,6 +162,8 @@ public class PlayerController : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
         spañePressed = Input.GetKey(KeyCode.Space);
+        shiftPressed = Input.GetKey(KeyCode.LeftShift);
+        
 
         movementStateMachine.Update();
         actionStateMachine.Update();
@@ -170,6 +182,8 @@ public class PlayerController : MonoBehaviour
 
         HorizontalMovement();
 
+        HandleDash();
+
         MoveCharacter(velocity * Time.fixedDeltaTime);
         
 
@@ -182,7 +196,6 @@ public class PlayerController : MonoBehaviour
     private void LateUpdate()
     {
         interpolatedPosition = playerSprite.transform.position;
-        futurePosition = interpolatedPosition + velocity;
     }
 
     void ApplyGravity()
@@ -303,7 +316,6 @@ public class PlayerController : MonoBehaviour
 
     void HorizontalMovement()
     {
-
         if (Mathf.Abs(horizontalInput) > 0.01f)
         {
             if (Mathf.Abs(velocity.x) < maxWalkSpeed ||
@@ -324,6 +336,60 @@ public class PlayerController : MonoBehaviour
                 velocity.x -= Mathf.Sign(velocity.x) * deceleration;
             }
         }
+
+        if (horizontalInput != 0) playerDirection = horizontalInput;
+
+        // dash deaccelerating
+
+        //float velocityToDeaccelerate = 0;
+        //float deacceleratingDirecton = 0;
+        //if (dashDeacceleratingEnabled)
+        //{
+        //    velocityToDeaccelerate = dashForce;
+        //    deacceleratingDirecton = -playerDirection;
+
+        //    dashDeacceleratingEnabled = false;
+        //}
+
+        //if (velocityToDeaccelerate != 0)
+        //{
+        //    velocityToDeaccelerate -= dashDeacceletareForce * Time.fixedDeltaTime;
+        //    velocity.x += dashDeacceletareForce * deacceleratingDirecton * Time.fixedDeltaTime;
+
+        //    if (Mathf.Sign(velocity.x) == deacceleratingDirecton) velocityToDeaccelerate = 0;
+        //}
+    }
+
+
+
+    private float dashDirection = 0, velocityToDeaccelerate = 0;
+    void HandleDash()
+    {
+        if (dashDeacceleratingEnabled)
+        {
+            velocityToDeaccelerate -= dashDeacceletareForce * Time.fixedDeltaTime;
+            velocity.x += dashDeacceletareForce * -dashDirection * Time.fixedDeltaTime;
+            if (velocityToDeaccelerate < 0 || Mathf.Sign(velocity.x) != dashDirection)
+            {
+                dashDeacceleratingEnabled = false;
+            }
+        }
+
+
+
+        if (dashReloadTimer != 0 || !shiftPressed) return;
+
+        if (Mathf.Sign(velocity.x) == playerDirection)
+        {
+            velocity.x += dashForce * playerDirection;
+        }
+        else velocity.x = dashForce * playerDirection * 1.5f;
+
+        velocityToDeaccelerate = dashForce;
+        dashDirection = playerDirection;
+        dashDeacceleratingEnabled = true;
+
+        dashReloadTimer = dashReloadTime;
     }
 
 
@@ -335,5 +401,9 @@ public class PlayerController : MonoBehaviour
         if (timeSaveVelocityX == 0) savedVelocityX = 0;
 
         swordTimer = Mathf.Max(0, swordTimer - Time.fixedDeltaTime);
+
+        dashReloadTimer = Mathf.Max(0, dashReloadTimer - Time.fixedDeltaTime);
     }
+
+
 }

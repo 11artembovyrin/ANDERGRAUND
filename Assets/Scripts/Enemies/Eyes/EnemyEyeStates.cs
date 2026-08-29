@@ -148,7 +148,7 @@ public class DashingState : EyeState
     {
         if (enemy is EyeDashController eyeDasher && eyeDasher.isElite)
         {
-            dashCount = 2;
+            dashCount = 3;
         }
         chargeTimer = 0f;
         dashTimer = 0f;
@@ -171,7 +171,6 @@ public class DashingState : EyeState
                     {
                         float distanceToTarget = (enemy.playerTransform.position - enemy.transform.position).magnitude;
                         float timeToTarget = (distanceToTarget / eyeDasher.dashSpeed) * 1f;
-                        Debug.Log(timeToTarget);
                         targetPos = (Vector2)enemy.playerTransform.position + enemy.playerController.velocity * timeToTarget;
                     }
                     else targetPos = enemy.playerTransform.position;
