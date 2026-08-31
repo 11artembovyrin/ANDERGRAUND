@@ -9,11 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/Scenes/DetskiySad.unity
-    guid: e9708394a34bbd848bf05fd6f0d350a8
-  - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: a002c3609c9bbf144ae07b5617e7ff5d
+  - enabled: 1
+    path: Assets/Scenes/DetskiySad.unity
+    guid: e9708394a34bbd848bf05fd6f0d350a8
   - enabled: 0
     path: Assets/Scenes/EblyaRakom.unity
     guid: 0bafff78acf46664e9d9dff164f9ce1f

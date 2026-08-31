@@ -152,7 +152,6 @@ public class PlayerController : MonoBehaviour
 
         movementStateMachine = new StateMachine();
         movementStateMachine.SwitchState(groundState);
-
         actionStateMachine = new StateMachine();
         actionStateMachine.SwitchState(idleState);
     }

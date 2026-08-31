@@ -7,7 +7,7 @@ public class BulletScript : MonoBehaviour
     public bool isHitScan = true;
 
     public float damage = 1;
-    public float speed;
+    public float speed; 
     public float timer;
 
     public LayerMask targetLayer;

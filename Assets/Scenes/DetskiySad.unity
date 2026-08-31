@@ -11250,6 +11250,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 25968981}
     m_Modifications:
+    - target: {fileID: 1370936487346634027, guid: 690c4dd5a1e8e4d4ab1e29ee6bce59d8, type: 3}
+      propertyPath: dashSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1370936487346634027, guid: 690c4dd5a1e8e4d4ab1e29ee6bce59d8, type: 3}
+      propertyPath: dashDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 3494559614801603666, guid: 690c4dd5a1e8e4d4ab1e29ee6bce59d8, type: 3}
       propertyPath: m_Name
       value: EyeDasherElite
@@ -11731,14 +11739,14 @@ RectTransform:
   m_GameObject: {fileID: 1752965881}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1880577914}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 630, y: 220}
+  m_AnchoredPosition: {x: 369, y: 163.94}
   m_SizeDelta: {x: 659.928, y: 327.87366}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1752965883
@@ -11763,12 +11771,12 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 9
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 14
+    m_MinSize: 1
     m_MaxSize: 294
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -14134,14 +14142,14 @@ RectTransform:
   m_GameObject: {fileID: 2001732303}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1880577914}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1582, y: 220}
+  m_AnchoredPosition: {x: 1529, y: 163.94}
   m_SizeDelta: {x: 659.928, y: 327.87366}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2001732306
@@ -14166,12 +14174,12 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 9
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 14
+    m_MinSize: 1
     m_MaxSize: 294
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -15940,7 +15948,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4039776623736690032, guid: d4e1b48d39d4e2a459a6c9ba9ca4ce76, type: 3}
       propertyPath: teleportOnSpawn
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4039776623736690032, guid: d4e1b48d39d4e2a459a6c9ba9ca4ce76, type: 3}
       propertyPath: walkAcceleration
@@ -15957,6 +15965,10 @@ PrefabInstance:
     - target: {fileID: 4039776623736690032, guid: d4e1b48d39d4e2a459a6c9ba9ca4ce76, type: 3}
       propertyPath: swordVelocityMultiplierSize
       value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039776623736690032, guid: d4e1b48d39d4e2a459a6c9ba9ca4ce76, type: 3}
+      propertyPath: swordVelocityMultiplierDamage
+      value: 0.0075
       objectReference: {fileID: 0}
     - target: {fileID: 4933621830139219033, guid: d4e1b48d39d4e2a459a6c9ba9ca4ce76, type: 3}
       propertyPath: m_Name
