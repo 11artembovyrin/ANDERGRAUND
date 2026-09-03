@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Dash")]
     public float dashForce = 50f;
-    public float dashDeacceletareForce = 20f;
+    public float dashDeaccelerateForce = 20f;
     public float dashReloadTime = 2f;
     private float dashReloadTimer = 0;
     private bool dashDeacceleratingEnabled = false;
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
     // INPUT
     [HideInInspector] public float horizontalInput;
     [HideInInspector] public float verticalInput;
-    [HideInInspector] public bool spañePressed;
+    [HideInInspector] public bool spacePressed;
     [HideInInspector] public bool shiftPressed;
     
 
@@ -103,9 +103,9 @@ public class PlayerController : MonoBehaviour
 
     // STATES
     // Movement states
-    public JumpState jumpState {  get; private set; }
-    public WallJumpState wallJumpState { get; private set; }
-    public JumpingState jumpingState { get; private set; }
+    public JumpInstantState jumpState {  get; private set; }
+    public WallJumpInstantState wallJumpState { get; private set; }
+    public JumpingProcessState jumpingState { get; private set; }
     public FallingState fallingState { get; private set; }
     public GroundState groundState { get; private set; }
     public HookingState hookingState { get; private set; }
@@ -128,9 +128,9 @@ public class PlayerController : MonoBehaviour
 
 
         // Movement states
-        jumpState = new JumpState(this);
-        wallJumpState = new WallJumpState(this);
-        jumpingState = new JumpingState(this);
+        jumpState = new JumpInstantState(this);
+        wallJumpState = new WallJumpInstantState(this);
+        jumpingState = new JumpingProcessState(this);
         fallingState = new FallingState(this);
         groundState = new GroundState(this);
         hookingState = new HookingState(this);
@@ -162,7 +162,7 @@ public class PlayerController : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
-        spañePressed = Input.GetKey(KeyCode.Space);
+        spacePressed = Input.GetKey(KeyCode.Space);
         shiftPressed = Input.GetKey(KeyCode.LeftShift);
         
 
@@ -215,7 +215,7 @@ public class PlayerController : MonoBehaviour
 
         if (Mathf.Abs(delta.x) > 0.0001f)
         {
-            Vector2 originX = pos + Vector2.right * Mathf.Sign(delta.x) * skinWidth * 0.5f;
+            Vector2 originX = pos + Mathf.Sign(delta.x) * skinWidth * 0.5f * Vector2.right;
             RaycastHit2D hitX = Physics2D.BoxCast(
                 originX,
                 boxSize - new Vector2(2 * skinWidth, 0.1f),
@@ -262,7 +262,7 @@ public class PlayerController : MonoBehaviour
 
             RaycastHit2D wallHitX = Physics2D.CircleCast(
                 circleOrigin,
-                0.3f, // Ðàäèóñ êðóãà
+                0.3f, // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
                 Vector2.right * wallDirection,
                 0.2f,
                 groundLayer
@@ -368,8 +368,8 @@ public class PlayerController : MonoBehaviour
     {
         if (dashDeacceleratingEnabled)
         {
-            velocityToDeaccelerate -= dashDeacceletareForce * Time.fixedDeltaTime;
-            velocity.x += dashDeacceletareForce * -dashDirection * Time.fixedDeltaTime;
+            velocityToDeaccelerate -= dashDeaccelerateForce * Time.fixedDeltaTime;
+            velocity.x += dashDeaccelerateForce * -dashDirection * Time.fixedDeltaTime;
             if (velocityToDeaccelerate < 0 || Mathf.Sign(velocity.x) != dashDirection)
             {
                 dashDeacceleratingEnabled = false;
