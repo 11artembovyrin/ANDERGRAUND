@@ -29,14 +29,17 @@ public class EyeBaseController : MonoBehaviour
     public DashingState dashingState { get; private set; }
 
     private CircleCollider2D col;
+    private Rigidbody2D rb;
 
 
     private void Start()
     {
         col = GetComponent<CircleCollider2D>();
+        rb = GetComponent<Rigidbody2D>();
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null) 
+
         { 
             playerTransform = player.transform; 
             playerController = player.GetComponent<PlayerController>();
@@ -74,8 +77,9 @@ public class EyeBaseController : MonoBehaviour
 
     void MoveEye(Vector2 delta)
     {
-        float bodyRadius = transform.localScale.x / 2;
+        
 
+        float bodyRadius = transform.localScale.x / 2;
         if (delta.magnitude > 0.001f)
         {
             RaycastHit2D hit = Physics2D.CircleCast(transform.position, bodyRadius, delta.normalized, delta.magnitude, groundLayer);
@@ -84,12 +88,8 @@ public class EyeBaseController : MonoBehaviour
                 velocity = Vector2.Reflect(velocity, hit.normal);
                 return;
             }
-
-
         }
 
         transform.position += (Vector3)delta;
-
     }
-
 }

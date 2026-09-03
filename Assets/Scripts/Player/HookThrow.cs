@@ -16,6 +16,7 @@ public class HookThrow : MonoBehaviour
     [HideInInspector] public float hookAmount;
 
     public GameObject currentHook;
+    private Rigidbody2D hookRb;
     private Vector3 hookDirection;
     private Vector3 hookCurrentPosition;
     private float hookCurrentDistance;
@@ -114,6 +115,7 @@ public class HookThrow : MonoBehaviour
         mousePos.z = 0;
         hookDirection = (mousePos - transform.position).normalized;
         currentHook = Instantiate(hookPrefab, transform.position, Quaternion.identity);
+        hookRb = currentHook.GetComponent<Rigidbody2D>();
 
         isHookActive = true;
         isHookAttached = false;
@@ -134,6 +136,7 @@ public class HookThrow : MonoBehaviour
             int hitLayerMask = 1 << hitWall.collider.gameObject.layer;
             hookAmount -= 1;
             currentHook.transform.position = hitWall.point;
+            //hookRb.MovePosition(hitWall.point);
             isHookAttached = true;
             hookFinalPosition = currentHook.transform.position;
             currentHook.transform.SetParent(hitWall.collider.gameObject.transform);
@@ -148,7 +151,8 @@ public class HookThrow : MonoBehaviour
             }
             
         }
-        else currentHook.transform.position = hookCurrentPosition;
+        //else currentHook.transform.position = hookCurrentPosition;
+        else hookRb.MovePosition(hookCurrentPosition);
 
 
         if (!hitWall)

@@ -72,9 +72,6 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Vector2 interpolatedPosition;
     [HideInInspector] public float playerDirection = 1;
 
-    private BoxCollider2D col;
-    private float halfWidth, halfHeight;
-
 
     // STATE MACHINE
     [HideInInspector] public StateMachine movementStateMachine = new StateMachine();
@@ -92,11 +89,17 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public float gravityMultiplier = 1f;
     [HideInInspector] public Vector2 futurePosition;
 
+    private static RaycastHit2D[] hitBuffer = new RaycastHit2D[1];
 
-    // SCRIPTS
+
+    // COMPONENTS
+    private BoxCollider2D col;
+    private Rigidbody2D rb;
     [HideInInspector] public HookThrow hook;
     [HideInInspector] public Health health;
 
+
+    private float halfWidth, halfHeight;
 
     // STATES
     // Movement states
@@ -124,8 +127,6 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        hook = GetComponent<HookThrow>();
-
         // Movement states
         jumpState = new JumpState(this);
         wallJumpState = new WallJumpState(this);
@@ -142,11 +143,12 @@ public class PlayerController : MonoBehaviour
         shotgunShootingState = new ShotgunShootingState(this);
 
 
-
         health = GetComponent<Health>();
         hook = GetComponent<HookThrow>();
-
         col = GetComponent<BoxCollider2D>();
+        rb = GetComponent<Rigidbody2D>();
+
+
         halfWidth = boxSize.x / 2f - skinWidth; 
         halfHeight = boxSize.y / 2f - skinWidth;
 
@@ -203,12 +205,13 @@ public class PlayerController : MonoBehaviour
             velocity.y -= gravity * gravityMultiplier * Time.fixedDeltaTime;
     }
 
+
+
     void MoveCharacter(Vector2 delta)
     {
         isGrounded = false;
 
-
-        Vector2 pos = transform.position;
+        Vector2 pos = rb.position;
 
         if (Mathf.Abs(delta.x) > 0.0001f)
         {
@@ -269,7 +272,6 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        // ÄÂÈÆÅÍÈÅ ÏÎ Y - ÈÑÏÐÀÂËÅÍÎ
         if (Mathf.Abs(delta.y) > 0.0001f)
         {
             Vector2 boxSizeY = boxSize - new Vector2(0.1f, 2 * skinWidth);
@@ -310,7 +312,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        transform.position = pos;
+        rb.MovePosition(pos);
     }
 
     void HorizontalMovement()
