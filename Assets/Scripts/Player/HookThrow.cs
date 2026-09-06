@@ -10,7 +10,7 @@ public class HookThrow : MonoBehaviour
     [SerializeField] private LayerMask notHookableLayer;
     [SerializeField] private GameObject hookPrefab;
 
-    [SerializeField] private float hookMaxAmount = 3f;
+    public float hookMaxAmount = 3f;
     [SerializeField] private float hookRegen = 0.5f;
 
     [HideInInspector] public float hookAmount;
