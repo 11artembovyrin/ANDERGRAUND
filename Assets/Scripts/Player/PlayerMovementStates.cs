@@ -24,9 +24,9 @@ public class PlayerMovementState :IState
 
 
 
-public class JumpState : PlayerMovementState
+public class JumpInstantState : PlayerMovementState
 {
-    public JumpState(PlayerController player) : base(player) { }
+    public JumpInstantState(PlayerController player) : base(player) { }
     public override void Enter()
     {
         if (player.horizontalInput != 0)
@@ -43,9 +43,9 @@ public class JumpState : PlayerMovementState
 }
 
 
-public class WallJumpState : PlayerMovementState
+public class WallJumpInstantState : PlayerMovementState
 {
-    public WallJumpState(PlayerController player) : base(player) { }
+    public WallJumpInstantState(PlayerController player) : base(player) { }
     public override void Enter()
     {
         player.velocity.x = Mathf.Max(player.wallJumpForceX, Mathf.Abs(player.savedVelocityX) + 5, Mathf.Abs(player.velocity.y)) * -player.wallDirection;
@@ -64,10 +64,9 @@ public class WallJumpState : PlayerMovementState
 }
 
 
-
-public class JumpingState : PlayerMovementState
+public class JumpingProcessState : PlayerMovementState
 {
-    public JumpingState(PlayerController player) : base(player) { }
+    public JumpingProcessState(PlayerController player) : base(player) { }
     public override void Enter() { }
     public override void Update() { }
     public override void FixedUpdate()
@@ -75,7 +74,7 @@ public class JumpingState : PlayerMovementState
         if (player.canWallJump)
             player.transform.Rotate(0, 0, 1500f * Time.deltaTime);
 
-        if (player.spañePressed == false)
+        if (player.spacePressed == false)
         {
             player.velocity.y *= 0.5f;
             player.movementStateMachine.SwitchState(player.fallingState);
@@ -100,7 +99,7 @@ public class FallingState : PlayerMovementState
         if (player.canWallJump)
             player.transform.Rotate(0, 0, 1500f * Time.deltaTime);
 
-        if (player.canWallJump && player.isTouchingWall && player.spañePressed)
+        if (player.canWallJump && player.isTouchingWall && player.spacePressed)
         {
             player.movementStateMachine.SwitchState(player.wallJumpState);
         }
@@ -134,7 +133,7 @@ public class GroundState : PlayerMovementState
             player.movementStateMachine.SwitchState(player.fallingState);
         }
 
-        if (player.spañePressed)
+        if (player.spacePressed)
         {
             player.movementStateMachine.SwitchState(player.jumpState);
         }
@@ -158,7 +157,7 @@ public class HookingState : PlayerMovementState
     private Vector2 forceDirection;
     private float hookVelocityX, hookVelocityY;
     private Vector2 startDirectionToHook, currentDirectionToHook;
-    private Vector2 finalForse;
+    private Vector2 finalForce;
     private Vector2 startVelocity;
 
     private float hookAccelerationTimer;
@@ -187,12 +186,12 @@ public class HookingState : PlayerMovementState
             hookVelocityX = Mathf.Max(Mathf.Abs(hookVelocityX), Mathf.Abs(startVelocity.x)) * Mathf.Sign(hookVelocityX);
             hookVelocityY = Mathf.Max(Mathf.Abs(hookVelocityY), Mathf.Abs(startVelocity.y)) * Mathf.Sign(hookVelocityY);
 
-            finalForse = new Vector2 { x = hookVelocityX, y = hookVelocityY };
+            finalForce = new Vector2 { x = hookVelocityX, y = hookVelocityY };
         }
         hookAccelerationTimer = Mathf.Max(0, hookAccelerationTimer - Time.fixedDeltaTime);
 
 
-        player.velocity = Vector2.MoveTowards(player.velocity, finalForse, player.hookAcceleration * Time.fixedDeltaTime);
+        player.velocity = Vector2.MoveTowards(player.velocity, finalForce, player.hookAcceleration * Time.fixedDeltaTime);
 
 
         currentDirectionToHook = (hookPos - (Vector2)player.transform.position).normalized;
@@ -216,7 +215,7 @@ public class HookingState : PlayerMovementState
 
 
 
-// ÍÅ ÈÑÏÎËÜÇÓÅÒÑß
+// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 public class HookingToEnemyState : PlayerMovementState
 {
     public HookingToEnemyState(PlayerController player) : base(player) { }
