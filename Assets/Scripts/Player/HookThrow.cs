@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class HookThrow : MonoBehaviour
@@ -111,8 +110,7 @@ public class HookThrow : MonoBehaviour
 
     void FireHook()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
+        Vector3 mousePos = Utils.GetMouseWorldPosition();
         hookDirection = (mousePos - transform.position).normalized;
         currentHook = Instantiate(hookPrefab, transform.position, Quaternion.identity);
         hookRb = currentHook.GetComponent<Rigidbody2D>();

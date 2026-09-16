@@ -63,6 +63,7 @@ MonoBehaviour:
     m_Bits: 256
   velocity: {x: 0, y: 0}
   playerTransform: {fileID: 0}
+  playerController: {fileID: 0}
   isElite: 0
   laserPrefab: {fileID: 3434756192433903647, guid: 49465dee741e1fe47b3677d3d8278ee2, type: 3}
   fireRate: 2
@@ -119,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 3
   currentHealth: 0
+  damageMultiplier: 1
   damageCooldown: 0.5
   cooldown: 0
 --- !u!1 &1566725861827910185

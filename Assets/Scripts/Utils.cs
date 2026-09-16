@@ -3,11 +3,17 @@ using UnityEngine;
 
 public static class Utils
 {
+    private static Plane _groundPlane = new Plane(Vector3.forward, Vector3.zero);
+
     public static Vector2 GetMouseWorldPosition()
     {
-        // Берем позицию мыши на экране (в пикселях) и переводим в игровой мир через главную камеру
-        Vector3 vec = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        return new Vector2(vec.x, vec.y);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (_groundPlane.Raycast(ray, out float distance))
+        {
+            Vector3 point = ray.GetPoint(distance);
+            return new Vector2(point.x, point.y);
+        }
+        return Vector2.zero;
     }
 
     public static Vector2 GetDirectionToMouse(Vector2 pos)

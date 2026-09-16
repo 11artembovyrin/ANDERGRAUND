@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public float maxFallSpeed = 50f;
     public float skinWidth = 0.015f;
 
-
+    
     [Header("Sword")]
     public float swordHitForce = 35f;
     public float swordCooldown = 0.5f;
@@ -43,13 +43,15 @@ public class PlayerController : MonoBehaviour
     public float hookForce = 100f;
     public float hookAcceleration = 20f;
     public float maxHookSpeed = 100f;
-
+    
     [Header("Dash")]
     public float dashForce = 50f;
     public float dashDeaccelerateForce = 20f;
     public float dashReloadTime = 2f;
+    [HideInInspector] public float velocityToDeaccelerate = 0;
     private float dashReloadTimer = 0;
     private bool dashDeacceleratingEnabled = false;
+    private float dashDirection = 0; 
 
     [Header("Collision")]
     public Vector2 boxSize;
@@ -363,7 +365,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private float dashDirection = 0, velocityToDeaccelerate = 0;
+    
     void HandleDash()
     {
         if (dashDeacceleratingEnabled)

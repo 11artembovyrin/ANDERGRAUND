@@ -181,8 +181,9 @@ MonoBehaviour:
   hookAcceleration: 200
   maxHookSpeed: 35
   dashForce: 50
-  dashDeacceletareForce: 100
+  dashDeaccelerateForce: 20
   dashReloadTime: 1
+  velocityToDeaccelerate: 0
   boxSize: {x: 1, y: 2}
   groundLayer:
     serializedVersion: 2
@@ -204,7 +205,7 @@ MonoBehaviour:
   playerDirection: 1
   horizontalInput: 0
   verticalInput: 0
-  "spa\u0441ePressed": 0
+  spacePressed: 0
   shiftPressed: 0
   acceleratingMultiplier: 1
   gravityMultiplier: 1

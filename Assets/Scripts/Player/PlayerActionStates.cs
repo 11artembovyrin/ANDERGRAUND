@@ -59,6 +59,7 @@ public class SwordAttackingState : PlayerActionState
         SwordSwing swordSwing = currentSwortInstance.GetComponent<SwordSwing>();
 
         scaleMultiplierFromVelocity = 1 + (player.velocity.magnitude * player.swordVelocityMultiplierSize);
+        scaleMultiplierFromVelocity = scaleMultiplierFromVelocity;  //square
         swordSwing.swordSprite.transform.localScale *= scaleMultiplierFromVelocity;
 
         col = currentSwortInstance.GetComponent<CapsuleCollider2D>();

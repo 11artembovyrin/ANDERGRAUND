@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15de97663945268499a68d2845ecbbb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletScript
+  hitWithNoCooldown: 0
+  isHitScan: 1
+  damage: 1
   speed: 50
   timer: 10
   targetLayer:
@@ -55,6 +58,7 @@ MonoBehaviour:
     m_Bits: 72
   startPosition: {x: 0, y: 0}
   direction: {x: 0, y: 0}
+  circleCollider: {fileID: 0}
 --- !u!1 &7880039595735429001
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,3 +163,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 226a577f72dcc8f43b98dc293a2a75ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interpolation
+  updateRotation: 1
