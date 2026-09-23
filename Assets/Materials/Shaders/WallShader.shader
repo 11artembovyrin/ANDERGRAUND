@@ -4,6 +4,9 @@ Shader "Custom/Wall Shader"
     {
         _MainTex ("Texture", 2D) = "white" {}
         
+        [Header(Base)]
+        _BaseColor ("Base Color (Tint)", Color) = (1,1,1,1)
+        
         [Header(Face Colors)]
         _FrontColor ("Front Color", Color) = (1,1,1,1)
         _TopColor ("Top Color", Color) = (0.65,0.65,0.65,1)
@@ -20,6 +23,9 @@ Shader "Custom/Wall Shader"
         Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" }
         Pass
         {
+            // Сдвигаем глубину, чтобы убрать Z-войну на стыках
+            Offset -1, -1
+            
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -43,6 +49,7 @@ Shader "Custom/Wall Shader"
             SAMPLER(sampler_MainTex);
             float4 _MainTex_ST;
             
+            float4 _BaseColor;
             float4 _FrontColor;
             float4 _TopColor;
             float4 _SideColor;
@@ -65,20 +72,21 @@ Shader "Custom/Wall Shader"
             {
                 float3 n = normalize(IN.normalWS);
 
-                // Определяем грань по нормали
+                // 1. Определяем цвет грани с учетом BaseColor
                 float3 faceColor;
-                if (n.z < -0.5)        faceColor = _FrontColor.rgb;
-                else if (n.z > 0.5)    faceColor = _FrontColor.rgb;
-                else if (n.y > 0.5)    faceColor = _TopColor.rgb;
-                else if (n.y < -0.5)   faceColor = _BottomColor.rgb;
-                else                   faceColor = _SideColor.rgb;
+                if (n.z < -0.5)        faceColor = _FrontColor.rgb  * _BaseColor.rgb;
+                else if (n.z > 0.5)    faceColor = _FrontColor.rgb  * _BaseColor.rgb;
+                else if (n.y > 0.5)    faceColor = _TopColor.rgb    * _BaseColor.rgb;
+                else if (n.y < -0.5)   faceColor = _BottomColor.rgb * _BaseColor.rgb;
+                else                   faceColor = _SideColor.rgb   * _BaseColor.rgb;
 
+                // 2. Текстура с тайлингом
                 half4 tex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv);
                 half3 baseColor = tex.rgb * faceColor;
 
-                // === ИСПРАВЛЕННАЯ ОБВОДКА ===
+                // 3. Обводка по краям UV (работает для простых кубов)
                 float2 distToEdge = min(IN.uv, 1.0 - IN.uv);
-                float2 pixelDist = distToEdge / max(fwidth(IN.uv), 1e-6); // защита от деления на 0
+                float2 pixelDist = distToEdge / max(fwidth(IN.uv), 1e-6);
                 float edgeDistPixels = min(pixelDist.x, pixelDist.y);
 
                 float outlineMask = 1.0 - smoothstep(

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4513110639496631562}
   - component: {fileID: 6717729020894191123}
   m_Layer: 8
-  m_Name: EyeLaserSprite
+  m_Name: EyeDasherSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,8 +28,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.77, y: 1.77, z: 1.77}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5869174963182490413}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -82,8 +82,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.10956812, g: 1, b: 0, a: 1}
+  m_Sprite: {fileID: 8598634611415830664, guid: 70a3c506413532842bb202a5f66cade0, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -104,7 +104,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 226a577f72dcc8f43b98dc293a2a75ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interpolation
-  updateRotation: 1
 --- !u!1 &561127509556398602
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,6 +116,8 @@ GameObject:
   - component: {fileID: 3362600743377148682}
   - component: {fileID: 2643655259306138483}
   - component: {fileID: 7170677484422965151}
+  - component: {fileID: 2075305097736814910}
+  - component: {fileID: 3388598429732455332}
   m_Layer: 8
   m_Name: EyeDasher
   m_TagString: Untagged
@@ -175,8 +176,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: -0.055114746, y: 0}
+  m_Radius: 0.93283844
 --- !u!114 &2643655259306138483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,6 +230,40 @@ MonoBehaviour:
   damageMultiplier: 1
   damageCooldown: 0.5
   cooldown: 0
+--- !u!95 &2075305097736814910
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561127509556398602}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 679493be4ea98ed46b6490b2c3036ec8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3388598429732455332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561127509556398602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4474c02fef5d7b4fa356538bed9ec1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EyeDashAnimationController
 --- !u!1 &7168470708923124865
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +299,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -2}
+  m_AnchoredPosition: {x: 0, y: -2.75}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1509583382196161485

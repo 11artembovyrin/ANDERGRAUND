@@ -15,10 +15,19 @@ public class Health : MonoBehaviour
 
     private SpriteRenderer sprite;
     private Color realColor;
+    private Material originalMaterial;
+    private Material flashMaterial;
+
     private void Awake()
     {
         sprite = GetComponentInChildren<SpriteRenderer>();
-        realColor = sprite.color;
+        if (sprite != null)
+        {
+            realColor = sprite.color;
+            originalMaterial = sprite.material;
+            flashMaterial = Resources.Load<Material>("FlashMaterial");
+            
+        }
     }
 
 
@@ -64,8 +73,9 @@ public class Health : MonoBehaviour
 
     IEnumerator ping()
     {
-        sprite.color = Color.white;
-        yield return new WaitForSecondsRealtime(0.2f);
-        sprite.color = realColor;
+        sprite.material = flashMaterial;
+        yield return new WaitForSecondsRealtime(0.1f);
+        sprite.material = originalMaterial;
     }
+
 }

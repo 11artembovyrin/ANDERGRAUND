@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class Interpolation : MonoBehaviour
 {
-    [Header("Настройки вращения")]
-    [Tooltip("Если включено, объект копирует поворот родителя (для игрока). Если выключено, сохраняет свой стартовый поворот (для меча).")]
-    public bool updateRotation = true;
-
     private Transform logicParent;
 
     // Переменные для сглаживания позиции
@@ -14,7 +10,6 @@ public class Interpolation : MonoBehaviour
 
     // Переменные для сохранения стартовых настроек из инспектора
     private Vector3 localOffset;
-    private Quaternion startingLocalRotation;
     private Vector3 startingLocalScale;
 
     void Start()
@@ -29,12 +24,11 @@ public class Interpolation : MonoBehaviour
             return;
         }
 
-        // 1. ЗАПОМИНАЕМ СМЕЩЕНИЕ, ПОВОРОТ И СКЕЙЛ ИЗ ИНСПЕКТОРА
+        // Запоминаем смещение и скейл из инспектора (поворот больше не трогаем)
         localOffset = transform.localPosition;
-        startingLocalRotation = transform.localRotation;
         startingLocalScale = transform.localScale;
 
-        // Отвязываем визуал от родителя для плавной интерполяции, как в первой версии
+        // Отвязываем визуал от родителя для плавной интерполяции
         transform.parent = null;
 
         previousPhysicsPosition = logicParent.position;
@@ -54,7 +48,7 @@ public class Interpolation : MonoBehaviour
 
     void Update()
     {
-        if (logicParent == null) 
+        if (logicParent == null)
         {
             Destroy(gameObject);
             return;
@@ -67,15 +61,12 @@ public class Interpolation : MonoBehaviour
         // 1. Плавно считаем позицию логического родителя
         Vector3 interpolatedTarget = Vector3.Lerp(previousPhysicsPosition, currentPhysicsPosition, interpolationFactor);
 
-        // 2. УПРАВЛЕНИЕ ВРАЩЕНИЕМ
-        Quaternion finalRotation = updateRotation ? logicParent.rotation : startingLocalRotation;
-        transform.rotation = finalRotation;
+        // 2. ПРИМЕНЯЕМ СМЕЩЕНИЕ (без учета поворота — просто прибавляем локальный offset)
+        transform.position = interpolatedTarget + localOffset;
 
-        // 3. ПРИМЕНЯЕМ СМЕЩЕНИЕ
-        Vector3 rotatedOffset = finalRotation * localOffset;
-        transform.position = interpolatedTarget + rotatedOffset;
-
-        // 4. КОРРЕТНЫЙ ВОЗВРАТ СКЕЙЛА (перемножаем стартовый локальный на масштаб родителя)
+        // 3. КОРРЕКТНЫЙ ВОЗВРАТ СКЕЙЛА
         transform.localScale = Vector3.Scale(startingLocalScale, logicParent.localScale);
+
+        // ПОВОРОТ (transform.rotation) БОЛЬШЕ НЕ ТРОГАЕМ — им управляет EyeBaseController
     }
 }

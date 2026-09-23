@@ -70,7 +70,7 @@ public class RunningState : EyeState
         {
             if (Vector2.Distance(eyePos, playerPos) <= eyeDasher.dashDistance && eyeDasher.dashCooldownTimer == eyeDasher.dashCooldown)
             {
-                enemy.stateMachine.SwitchState(enemy.dashingState);
+                enemy.stateMachine.SwitchState(enemy.greenChargingState);
             }
         }
 
@@ -128,6 +128,7 @@ public class ShootingState : EyeState
 
                 eyeLaser.fireTimer = 0;
                 timer = 0;
+                enemy.velocity += eyeLaser.recoilForce * -directionToTarget;
                 enemy.stateMachine.SwitchState(enemy.runningState);
             }
         }
@@ -137,12 +138,41 @@ public class ShootingState : EyeState
 }
 
 
-public class DashingState : EyeState
+
+
+public class GreenEyeChargingState : EyeState
 {
-    public DashingState(EyeBaseController enemy) : base(enemy) { }
+    public GreenEyeChargingState(EyeBaseController enemy) : base(enemy) { }
+    private float chargeTimer;
+    public override void Enter()
+    {
+        chargeTimer = 0f;
+    }
+
+    public override void FixedUpdate()
+    {
+        if (enemy is EyeDashController eyeDasher)
+        {
+            chargeTimer += Time.fixedDeltaTime;
+            enemy.velocity = Vector2.MoveTowards(enemy.velocity, Vector2.zero, enemy.acceleration * Time.fixedDeltaTime * 5);
+
+            if (chargeTimer > eyeDasher.dashChargeTime)
+            {
+                enemy.stateMachine.SwitchState(enemy.greenDashingState);
+            }
+        }
+        
+    }
+}
+
+
+
+
+public class GreenEyeDashingState : EyeState
+{
+    public GreenEyeDashingState(EyeBaseController enemy) : base(enemy) { }
 
     private float dashCount = 1;
-    private float chargeTimer;
     private float dashTimer;
     public override void Enter() 
     {
@@ -150,7 +180,6 @@ public class DashingState : EyeState
         {
             dashCount = 3;
         }
-        chargeTimer = 0f;
         dashTimer = 0f;
     }
 
@@ -160,37 +189,30 @@ public class DashingState : EyeState
     {
         if (enemy is EyeDashController eyeDasher)
         {
-            if (chargeTimer < eyeDasher.dashChargeTime)
+            if (dashTimer == 0)
             {
-                enemy.velocity = Vector2.MoveTowards(enemy.velocity, Vector2.zero, enemy.acceleration * Time.fixedDeltaTime * 5);
-                chargeTimer += Time.fixedDeltaTime;
-                if (chargeTimer >= eyeDasher.dashChargeTime)
+                Vector2 targetPos;
+                if (eyeDasher.isElite)
                 {
-                    Vector2 targetPos = Vector2.zero;
-                    if (eyeDasher.isElite)
-                    {
-                        float distanceToTarget = (enemy.playerTransform.position - enemy.transform.position).magnitude;
-                        float timeToTarget = (distanceToTarget / eyeDasher.dashSpeed) * 1f;
-                        targetPos = (Vector2)enemy.playerTransform.position + enemy.playerController.velocity * timeToTarget;
-                    }
-                    else targetPos = enemy.playerTransform.position;
-
-                    Vector2 directionToTarget = (targetPos - (Vector2)enemy.transform.position).normalized;
-                    enemy.velocity = eyeDasher.dashSpeed * directionToTarget;
+                    float distanceToTarget = (enemy.playerTransform.position - enemy.transform.position).magnitude;
+                    float timeToTarget = (distanceToTarget / eyeDasher.dashSpeed) * 1f;
+                    targetPos = (Vector2)enemy.playerTransform.position + enemy.playerController.velocity * timeToTarget;
                 }
+                else targetPos = enemy.playerTransform.position;
+
+                Vector2 directionToTarget = (targetPos - (Vector2)enemy.transform.position).normalized;
+                enemy.velocity = eyeDasher.dashSpeed * directionToTarget;
+                dashTimer += Time.fixedDeltaTime;
             }
             else
             {
                 dashTimer += Time.fixedDeltaTime;
-
-
                 if (dashTimer >= eyeDasher.dashDuration)
                 {
                     dashCount -= 1;
                     if(dashCount > 0)
                     {
                         // обратно в конец первого условия
-                        chargeTimer = eyeDasher.dashChargeTime - Time.fixedDeltaTime;
                         dashTimer = 0f;
                     }
                     else

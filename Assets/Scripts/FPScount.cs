@@ -38,7 +38,6 @@ public class FPSCount : MonoBehaviour
             float fps = frameCount / timeSinceLastUpdate;
             fpsText.text = $"FPS: {fps:F0}";
 
-            if (fps < 50) Debug.Log(fps);
 
             // Сброс
             frameCount = 0;

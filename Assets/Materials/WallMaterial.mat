@@ -28,7 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 10307, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
@@ -43,15 +43,16 @@ Material:
     m_Floats:
     - _Ambient: 0.096
     - _EnableExternalAlpha: 0
-    - _OutlineSoftness: 0.792
-    - _OutlineWidth: 8.4
+    - _OutlineSoftness: 0.05
+    - _OutlineWidth: 9.2
     - _ZWrite: 0
     m_Colors:
+    - _BaseColor: {r: 1, g: 0.435849, b: 0.9847421, a: 1}
     - _BottomColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _FrontColor: {r: 1, g: 1, b: 1, a: 1}
     - _LightDirection: {r: 0, g: 0, b: 1, a: 0}
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 0.8}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 0.76862746}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SideColor: {r: 0.39999998, g: 0.39999998, b: 0.39999998, a: 1}
     - _TopColor: {r: 0.65, g: 0.65, b: 0.65, a: 1}

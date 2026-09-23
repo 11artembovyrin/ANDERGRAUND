@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9200998866275763810}
   - component: {fileID: 1912061444393702501}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: EyeLaserBulletPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   - component: {fileID: 3172480912659351152}
   - component: {fileID: 7645610146798744852}
   - component: {fileID: 8316652246809567151}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: LaserBulletSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,4 +163,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 226a577f72dcc8f43b98dc293a2a75ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interpolation
-  updateRotation: 1

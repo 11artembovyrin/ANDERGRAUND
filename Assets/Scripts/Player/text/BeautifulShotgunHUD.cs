@@ -5,11 +5,11 @@ using DG.Tweening;
 
 public class BeautifulShotgunHUD : MonoBehaviour
 {
-    [Header("GayObjects")]
+    [Header("Game Objects")]
     [SerializeField] private GameObject shellPrefab;
     [SerializeField] private GameObject player;
 
-    [Header("Sasnye Nastroyki")]
+    [Header("Visual Settings")]
     [SerializeField] private Color emptyColor = new Color(1, 1, 1, 0.5f);
     [SerializeField] private Color fullColor = new Color(1, 1, 1, 1);
     [SerializeField] private Material flashMaterial;
@@ -22,77 +22,103 @@ public class BeautifulShotgunHUD : MonoBehaviour
     private List<bool> isShellFull = new List<bool>();
     private List<Transform> shellTransforms = new List<Transform>();
 
+    // Список для хранения ссылок на активные DelayedCall для каждой гильзы
+    private List<Tween> flashDelayedCalls = new List<Tween>();
 
     private PlayerController playerController;
+
     private float maxAmmo => playerController.maxAmmo;
     private float currentAmmo => playerController.currentAmmo;
+    private float lastAmmo;
+
     private void Start()
     {
+        // Полная очистка
         foreach (Transform child in transform) Destroy(child.gameObject);
         shellFills.Clear();
         isShellFull.Clear();
-
+        shellTransforms.Clear();
+        flashDelayedCalls.Clear();
 
         playerController = player.GetComponent<PlayerController>();
+        lastAmmo = currentAmmo;
 
-        for (int i = 0; i < playerController.maxAmmo; i++)
+        // Инициализация по индексам
+        for (int i = 0; i < maxAmmo; i++)
         {
             GameObject newShell = Instantiate(shellPrefab, transform);
-
             Image fillImage = newShell.transform.GetChild(0).GetComponent<Image>();
-            fillImage.fillAmount = 0f;
-            fillImage.color = emptyColor;
+
+            float currentShellFill = Mathf.Clamp01(currentAmmo - i);
+            fillImage.fillAmount = currentShellFill;
+
+            bool isFull = currentShellFill >= 1f;
+            fillImage.color = isFull ? fullColor : emptyColor;
 
             shellFills.Add(fillImage);
-            isShellFull.Add(false);
+            isShellFull.Add(isFull);
             shellTransforms.Add(newShell.transform);
-        }
 
+            // Заполняем список пустыми значениями (пока твинов нет)
+            flashDelayedCalls.Add(null);
+        }
     }
 
-
-    private float currentAmmoHUD = 0;
-    private void FixedUpdate()
+    private void Update()
     {
-        if (currentAmmoHUD == currentAmmo) return;
+        if (Mathf.Approximately(lastAmmo, currentAmmo)) return;
 
+        UpdateHUD();
+        lastAmmo = currentAmmo;
+    }
+
+    private void UpdateHUD()
+    {
         for (int i = 0; i < maxAmmo; i++)
         {
             float currentShellFill = Mathf.Clamp01(currentAmmo - i);
             shellFills[i].fillAmount = currentShellFill;
-            if (currentShellFill == 1)
+
+            if (currentShellFill >= 1f)
             {
                 if (!isShellFull[i])
                 {
                     isShellFull[i] = true;
-                    shellFills[i].color = fullColor;
-                    PlayChargeFx(shellFills[i], shellTransforms[i]);
+                    PlayChargeFx(shellFills[i], shellTransforms[i], i);
                 }
             }
-            else if (isShellFull[i])
+            else
             {
-                isShellFull[i] = false;
-                shellFills[i].color = emptyColor;
-                PlayShakeRotationFx(shellTransforms[i]);
+                if (isShellFull[i])
+                {
+                    isShellFull[i] = false;
+                    PlayShakeRotationFx(shellFills[i], shellTransforms[i], i);
+                }
             }
         }
-
-        currentAmmoHUD = currentAmmo;
     }
 
-
-    private void PlayChargeFx(Image fillImage, Transform shellTransform)
+    private void PlayChargeFx(Image fillImage, Transform shellTransform, int index)
     {
+        // 1. Убиваем старые анимации UI и трансформа по индексу
         fillImage.DOKill();
         shellTransform.DOKill();
-        shellTransform.rotation = Quaternion.identity;
 
+        // 2. Убиваем старый DelayedCall по индексу, если он еще тикал
+        KillDelayedCall(index);
+
+        // Сброс визуала в дефолт
+        shellTransform.localRotation = Quaternion.identity;
+        shellTransform.localScale = Vector3.one;
         fillImage.material = flashMaterial;
         fillImage.color = Color.white;
+        fillImage.fillAmount = 1f;
 
+        // Запуск анимации шкалы
         shellTransform.DOPunchScale(new Vector3(0.2f, 0.2f, 0.2f), 0.5f, 1, 1);
-        DOVirtual.DelayedCall(flashDuration, () =>
-        {
+
+        // 3. Сохраняем новый DelayedCall в список по индексу гильзы
+        flashDelayedCalls[index] = DOVirtual.DelayedCall(flashDuration, () => {
             if (fillImage != null)
             {
                 fillImage.material = null;
@@ -101,22 +127,69 @@ public class BeautifulShotgunHUD : MonoBehaviour
         });
     }
 
-    private void PlayShakeRotationFx(Transform shellTransform)
+    private void PlayShakeRotationFx(Image fillImage, Transform shellTransform, int index)
     {
+        // Убиваем всё активное по этому индексу
+        fillImage.DOKill();
         shellTransform.DOKill();
+        KillDelayedCall(index);
 
-        // Сбрасываем поворот в дефолт
+        // Возвращаем гильзу в исходное "пустое" состояние
+        fillImage.material = null;
+        fillImage.color = emptyColor;
+        shellTransform.localScale = Vector3.one;
         shellTransform.localRotation = Quaternion.identity;
 
-        // Трясем вращение. Силу (strength) для UI лучше ставить в районе 10-20 градусов
-        
+        // Тряска
         shellTransform.DOShakeRotation(
             duration: shakeDuration,
-            // Трясем только по оси Z (Vector3.forward), чтобы пуля качалась влево-вправо
             strength: new Vector3(0, 0, 15f),
             vibrato: shakeVibrato,
             randomness: shakeRandomness,
             fadeOut: true
         );
+    }
+
+    // Вспомогательный метод для безопасного удаления твина из списка
+    private void KillDelayedCall(int index)
+    {
+        if (flashDelayedCalls[index] != null && flashDelayedCalls[index].IsActive())
+        {
+            flashDelayedCalls[index].Kill();
+        }
+        flashDelayedCalls[index] = null;
+    }
+
+    private void OnDestroy()
+    {
+        // 1. Сначала уничтожаем все DelayedCall по индексам
+        if (flashDelayedCalls != null)
+        {
+            for (int i = 0; i < flashDelayedCalls.Count; i++)
+            {
+                KillDelayedCall(i);
+            }
+        }
+
+        // 2. Вместо перебора списков, в которых объекты уже могут быть null,
+        // просто очищаем абсолютно ВСЕ твины, связанные с этим HUD и его детьми
+        DOTween.Kill(transform);
+
+        // 3. Безопасно чистим твины на заполнениях и трансформах, если они еще живы
+        if (shellTransforms != null)
+        {
+            foreach (var t in shellTransforms)
+            {
+                if (t != null) t.DOKill();
+            }
+        }
+
+        if (shellFills != null)
+        {
+            foreach (var f in shellFills)
+            {
+                if (f != null) f.DOKill();
+            }
+        }
     }
 }

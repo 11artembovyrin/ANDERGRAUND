@@ -26,16 +26,22 @@ public class EyeBaseController : MonoBehaviour
     public SearchingState searchingState { get; private set; }
     public RunningState runningState { get; private set; }
     public ShootingState shootingState { get; private set; }
-    public DashingState dashingState { get; private set; }
+    public GreenEyeDashingState greenDashingState { get; private set; }
+    public GreenEyeChargingState greenChargingState { get; private set; }
 
     private CircleCollider2D col;
-    private Rigidbody2D rb;
 
+    protected SpriteRenderer spriteRenderer;
+
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
 
     private void Start()
     {
         col = GetComponent<CircleCollider2D>();
-        rb = GetComponent<Rigidbody2D>();
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null) 
@@ -49,7 +55,8 @@ public class EyeBaseController : MonoBehaviour
         searchingState = new SearchingState(this);
         runningState = new RunningState(this);
         shootingState = new ShootingState(this);
-        dashingState = new DashingState(this);
+        greenDashingState = new GreenEyeDashingState(this);
+        greenChargingState = new GreenEyeChargingState(this);
 
         stateMachine = new StateMachine();
         stateMachine.SwitchState(searchingState);
@@ -73,6 +80,8 @@ public class EyeBaseController : MonoBehaviour
             Health health = hit.collider.gameObject.GetComponent<Health>();
             health.TakeHit(1);
         }
+
+        
     }
 
     void MoveEye(Vector2 delta)
