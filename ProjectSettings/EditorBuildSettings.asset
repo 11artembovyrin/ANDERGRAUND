@@ -8,10 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Menu.unity
     guid: a002c3609c9bbf144ae07b5617e7ff5d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/DetskiySad.unity
     guid: e9708394a34bbd848bf05fd6f0d350a8
   - enabled: 0
@@ -23,5 +23,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/NePlachSosunok.unity
     guid: d180c495c98ac554393a5e9272832b09
+  - enabled: 1
+    path: Assets/Scenes/RogueLike.unity
+    guid: a8820f2a16f624a4f8314f5daf1d7fd5
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

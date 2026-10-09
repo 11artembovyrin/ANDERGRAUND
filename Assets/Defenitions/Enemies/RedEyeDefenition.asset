@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271793f865105204cb341db364b58da3, type: 3}
+  m_Name: RedEyeDefenition
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDefinition
+  id: 1
+  prefab: {fileID: 1273495506414041318, guid: 82d5316e0becdf84a93d6632d426ce7c, type: 3}
+  cost: 1
+  minDifficulty: 0
+  maxPerRoom: 5
+  weight: 1
+  WeightBiasToCheap: 0.5
+  allowedSpawnSlots: 2

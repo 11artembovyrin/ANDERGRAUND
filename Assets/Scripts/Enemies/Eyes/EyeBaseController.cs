@@ -33,6 +33,8 @@ public class EyeBaseController : MonoBehaviour
 
     protected SpriteRenderer spriteRenderer;
 
+    private Rigidbody2D rigidBody;
+
 
     private void Awake()
     {
@@ -42,6 +44,7 @@ public class EyeBaseController : MonoBehaviour
     private void Start()
     {
         col = GetComponent<CircleCollider2D>();
+        rigidBody = GetComponent<Rigidbody2D>();
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null) 
@@ -99,6 +102,6 @@ public class EyeBaseController : MonoBehaviour
             }
         }
 
-        transform.position += (Vector3)delta;
+        rigidBody.MovePosition(transform.position + (Vector3)delta);
     }
 }

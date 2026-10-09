@@ -11,9 +11,10 @@ public class HookHUD : MonoBehaviour
 
     private float hookAmount => hookScript.hookAmount;
     private float hookMaxAmount => hookScript.hookMaxAmount;
-
-
     private float hookAmountHUD = 0;
+
+    private Tween punchTween;
+
     private void FixedUpdate()
     {
         if (hookAmount == hookAmountHUD) return;
@@ -22,14 +23,20 @@ public class HookHUD : MonoBehaviour
 
         if ((int)hookAmount != hookAmountHUD)
         {
-            if(hookAmount > hookAmountHUD)
+            if (hookAmount > hookAmountHUD)
             {
-                hookText.transform.DOPunchScale(new Vector3(0.2f, 0.2f, 0.2f), 0.5f, 1, 1);
+                punchTween?.Kill(true);
+
+                punchTween = hookText.transform.DOPunchScale(new Vector3(0.2f, 0.2f, 0.2f), 0.5f, 1, 1);
             }
 
             hookAmountHUD = (int)hookAmount;
             hookText.text = hookAmountHUD.ToString();
-            
         }
+    }
+
+    private void OnDestroy()
+    {
+        punchTween?.Kill();
     }
 }

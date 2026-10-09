@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 40f;
     public float wallJumpForceY = 40f;
     public float wallJumpForceX = 30f;
+    public float wallJumpVelocityBonus = 10f;
 
     [Header("Hook")]
     public float hookForce = 100f;
@@ -127,6 +128,7 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = SpawnSettings.spawnPosition;
         }
+        
 
 
         // Movement states
@@ -160,6 +162,11 @@ public class PlayerController : MonoBehaviour
         actionStateMachine.SwitchState(idleState);
     }
 
+    
+    // smert
+
+
+
     private void Update()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -175,6 +182,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (health.IsDead) movementStateMachine.SwitchState(nothingState);
         if (movementStateMachine.GetCurrentState() == nothingState) return;
 
 
@@ -341,26 +349,6 @@ public class PlayerController : MonoBehaviour
         }
 
         if (horizontalInput != 0) playerDirection = horizontalInput;
-
-        // dash deaccelerating
-
-        //float velocityToDeaccelerate = 0;
-        //float deacceleratingDirecton = 0;
-        //if (dashDeacceleratingEnabled)
-        //{
-        //    velocityToDeaccelerate = dashForce;
-        //    deacceleratingDirecton = -playerDirection;
-
-        //    dashDeacceleratingEnabled = false;
-        //}
-
-        //if (velocityToDeaccelerate != 0)
-        //{
-        //    velocityToDeaccelerate -= dashDeacceletareForce * Time.fixedDeltaTime;
-        //    velocity.x += dashDeacceletareForce * deacceleratingDirecton * Time.fixedDeltaTime;
-
-        //    if (Mathf.Sign(velocity.x) == deacceleratingDirecton) velocityToDeaccelerate = 0;
-        //}
     }
 
 
@@ -407,6 +395,4 @@ public class PlayerController : MonoBehaviour
 
         dashReloadTimer = Mathf.Max(0, dashReloadTimer - Time.fixedDeltaTime);
     }
-
-
 }

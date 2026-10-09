@@ -46,7 +46,7 @@ public class WallJumpInstantState : PlayerMovementState
     public WallJumpInstantState(PlayerController player) : base(player) { }
     public override void Enter()
     {
-        player.velocity.x = Mathf.Max(player.wallJumpForceX, Mathf.Abs(player.savedVelocityX) + 5 - player.velocityToDeaccelerate, Mathf.Abs(player.velocity.y)) * -player.wallDirection;
+        player.velocity.x = Mathf.Max(player.wallJumpForceX, Mathf.Abs(player.savedVelocityX) + player.wallJumpVelocityBonus - player.velocityToDeaccelerate, Mathf.Abs(player.velocity.y) + player.wallJumpVelocityBonus) * -player.wallDirection;
         player.velocity.y = player.wallJumpForceY;
 
         player.movementStateMachine.SwitchState(player.jumpingState);

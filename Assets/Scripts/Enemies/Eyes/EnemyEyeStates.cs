@@ -191,14 +191,15 @@ public class GreenEyeDashingState : EyeState
         {
             if (dashTimer == 0)
             {
-                Vector2 targetPos;
-                if (eyeDasher.isElite)
-                {
-                    float distanceToTarget = (enemy.playerTransform.position - enemy.transform.position).magnitude;
-                    float timeToTarget = (distanceToTarget / eyeDasher.dashSpeed) * 1f;
-                    targetPos = (Vector2)enemy.playerTransform.position + enemy.playerController.velocity * timeToTarget;
-                }
-                else targetPos = enemy.playerTransform.position;
+                Vector2 targetPos = enemy.playerTransform.position;
+
+                //if (eyeDasher.isElite)
+                //{
+                //    float distanceToTarget = (enemy.playerTransform.position - enemy.transform.position).magnitude;
+                //    float timeToTarget = (distanceToTarget / eyeDasher.dashSpeed) * 1f;
+                //    targetPos = (Vector2)enemy.playerTransform.position + enemy.playerController.velocity * timeToTarget;
+                //}
+                //else targetPos = enemy.playerTransform.position;
 
                 Vector2 directionToTarget = (targetPos - (Vector2)enemy.transform.position).normalized;
                 enemy.velocity = eyeDasher.dashSpeed * directionToTarget;
