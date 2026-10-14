@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 7743502365136555101}
   m_Layer: 8
   m_Name: EyeLaser
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,10 +124,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53670226ef5f59a4396c489d41119549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 3
+  maxHealth: 10
   currentHealth: 0
   damageMultiplier: 1
   damageCooldown: 0.5
+  destroyOnDeath: 0
   cooldown: 0
 --- !u!95 &2879330746402581683
 Animator:

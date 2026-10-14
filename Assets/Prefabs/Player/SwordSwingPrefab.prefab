@@ -26,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 382862642910630231}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 5, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 5, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3257086873700773981}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3011182289389820945
 SpriteRenderer:
   serializedVersion: 2
@@ -82,8 +82,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 200
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.64716977, g: 1, b: 0.9934792, a: 1}
+  m_Sprite: {fileID: 6942560188032757996, guid: 473d0adc33b3fdc4cbd8b84e82d6f51f, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -91,7 +91,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &4491955888400062552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +104,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 226a577f72dcc8f43b98dc293a2a75ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interpolation
-  updateRotation: 1
 --- !u!1 &2525814596070199670
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,7 +114,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3257086873700773981}
   - component: {fileID: 3166426405311544451}
-  - component: {fileID: 8840595727908976522}
+  - component: {fileID: 7566042940248803894}
   m_Layer: 0
   m_Name: SwordSwingPrefab
   m_TagString: Untagged
@@ -134,7 +133,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3315000330554534934}
   m_Father: {fileID: 0}
@@ -176,7 +175,7 @@ CapsuleCollider2D:
   m_Offset: {x: 5, y: 0}
   m_Size: {x: 10.0000105, y: 4}
   m_Direction: 1
---- !u!114 &8840595727908976522
+--- !u!114 &7566042940248803894
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,9 +184,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2525814596070199670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c61998071b41d0c4e8ce7b1c54bf52a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 315e0c52eb541c84d8dc35be1e39d82d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwordSwing
+  m_EditorClassIdentifier: Assembly-CSharp::SwordSwingController
   playerSpriteTransform: {fileID: 0}
   swordSprite: {fileID: 382862642910630231}
-  timer: 0.1
+  timer: 1

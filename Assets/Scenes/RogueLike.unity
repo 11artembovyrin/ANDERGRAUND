@@ -5376,6 +5376,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4039776623736690032, guid: d4e1b48d39d4e2a459a6c9ba9ca4ce76, type: 3}
+      propertyPath: smallSwingCooldown
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039776623736690032, guid: d4e1b48d39d4e2a459a6c9ba9ca4ce76, type: 3}
+      propertyPath: minVelocityForMediumSwing
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 4933621830139219033, guid: d4e1b48d39d4e2a459a6c9ba9ca4ce76, type: 3}
       propertyPath: m_Name
       value: idiot

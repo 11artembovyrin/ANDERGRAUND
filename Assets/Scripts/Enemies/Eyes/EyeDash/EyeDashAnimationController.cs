@@ -11,7 +11,9 @@ public class EyeDashAnimationController : MonoBehaviour
         controller = GetComponent<EyeDashController>();
         animator = GetComponent<Animator>();
 
-
+        float chargeClipLength = Utils.GetClipLength(animator, "Charging");
+        float targetDuration = controller.dashChargeTime;
+        animator.SetFloat("chargeSpeed", chargeClipLength / targetDuration);
     }
 
     private void FixedUpdate()

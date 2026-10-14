@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,20 +18,39 @@ public class PlayerController : MonoBehaviour
     public float maxFallSpeed = 50f;
     public float skinWidth = 0.015f;
 
-    
+
     [Header("Sword")]
-    public float swordHitForce = 35f;
-    public float swordCooldown = 0.5f;
-    public float swordBaseDamage = 0.5f;
-    public float swordVelocityMultiplierDamage = 0.01f;
-    public float swordVelocityMultiplierSize = 0.01f;
-    [HideInInspector] public float swordTimer = 0f;
+    public float minVelocityForMediumSwing = 40f;
+    public float minVelocityForBigSwing = 100f;
+    public float shotgunAmmoMultiplier = 0.15f;
+
+    [Header("Small Swing Settings")]
+    public float smallSwingDamage = 1f;
+    public float smallSwingCooldown = 0.25f;
+    public float smallSwingTime = 0.1f;
+
+
+    [Header("Medium Swing Settings")]
+    public float mediumSwingDamage = 3f;
+    public float mediumSwingCooldown = 0.5f;
+    public float mediumSwingTime = 0.25f;
+
+
+
+    [Header("Big Swing Settings")]
+    public float bigSwingDamage = 10f;
+    public float bigSwingCooldown = 1f;
+    public float bigSwingTime = 0.4f;
+
+
+    [HideInInspector] public float swordTimer = 0;
+
+
 
     [Header("Shotgun")]
     public int bulletNumber = 3;
     public float angleOffset = 10f;
     public float recoilForce = 30f;
-    public float ammoMultiplier = 1f;
     public float maxAmmo = 3f;
     [HideInInspector] public float currentAmmo = 0f;
 

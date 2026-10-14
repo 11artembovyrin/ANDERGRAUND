@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6717729020894191123}
   m_Layer: 8
   m_Name: EyeDasherSprite
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 5801601115749521891}
   m_Layer: 8
   m_Name: EyeDasher
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -228,10 +228,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53670226ef5f59a4396c489d41119549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 3
+  maxHealth: 10
   currentHealth: 0
   damageMultiplier: 1
   damageCooldown: 0.5
+  destroyOnDeath: 0
   cooldown: 0
 --- !u!95 &2075305097736814910
 Animator:

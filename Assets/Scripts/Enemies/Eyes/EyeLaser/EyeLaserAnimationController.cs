@@ -6,15 +6,18 @@ public class EyeLaserAnimationController : MonoBehaviour
     private Animator animator;
 
 
+
     private void Start()
     {
         controller = GetComponent<EyeLaserController>();
         animator = GetComponent<Animator>();
 
-
+        float chargeClipLength = Utils.GetClipLength(animator, "RedEyeCharge");
+        float targetDuration = controller.chargeTime;
+        animator.SetFloat("chargeSpeed", chargeClipLength / targetDuration);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if(controller.stateMachine.GetCurrentState() == controller.shootingState)
         {

@@ -70,7 +70,7 @@ public class JumpingProcessState : PlayerMovementState
     public override void FixedUpdate()
     {
         if (player.canWallJump)
-            player.transform.Rotate(0, 0, 1500f * Time.deltaTime);
+            player.playerSprite.transform.Rotate(0, 0, 1500f * Time.deltaTime);
 
         if (player.spacePressed == false)
         {
@@ -95,7 +95,7 @@ public class FallingState : PlayerMovementState
     public override void FixedUpdate()
     {
         if (player.canWallJump)
-            player.transform.Rotate(0, 0, 1500f * Time.deltaTime);
+            player.playerSprite.transform.Rotate(0, 0, 1500f * Time.deltaTime);
 
         if (player.canWallJump && player.isTouchingWall && player.spacePressed)
         {
@@ -110,7 +110,7 @@ public class FallingState : PlayerMovementState
     public override void Exit() 
     { 
         player.canWallJump = false;
-        player.transform.rotation = Quaternion.identity;
+        player.playerSprite.transform.rotation = Quaternion.identity;
     }
 
 }

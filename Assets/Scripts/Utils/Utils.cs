@@ -46,4 +46,35 @@ public static class Utils
 
         return line;
     }
+
+
+    public static float GetClipLength(Animator animator, string clipName)
+    {
+        if (animator == null || animator.runtimeAnimatorController == null)
+        {
+            Debug.LogWarning("AnimationUtils: Animator или его Controller не назначены!");
+            return 0f;
+        }
+
+        AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+
+        foreach (AnimationClip clip in clips)
+        {
+            if (clip.name == clipName)
+            {
+                return clip.length;
+            }
+        }
+
+        Debug.LogError($"AnimationUtils: Клип с именем '{clipName}' не найден в Аниматоре {animator.gameObject.name}!");
+        return 0f;
+    }
+
+
+    public static void ChangeClipDuration(Animator animator, string clipName, string parameterName, float duration)
+    {
+        float originalLength = GetClipLength(animator, clipName);
+        float calculatedSpeed = originalLength / duration;
+        animator.SetFloat(parameterName, calculatedSpeed);
+    }
 }
